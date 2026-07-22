@@ -1,16 +1,11 @@
 name: Validate catalog
 
-# Fast, deterministic structural check — runs on every change to the data or scripts.
+# Fast, deterministic structural check. Runs on every PR (so it can be a required
+# status check) and on pushes to main.
 on:
   push:
-    paths:
-      - 'data/catalog.js'
-      - 'scripts/**'
-      - '.github/workflows/validate.yml'
+    branches: [main]
   pull_request:
-    paths:
-      - 'data/catalog.js'
-      - 'scripts/**'
   workflow_dispatch:
 
 jobs:
