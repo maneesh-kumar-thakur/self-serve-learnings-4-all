@@ -8,9 +8,8 @@ and **🐙 Code** — its repo or homepage.
 
 ## 🔎 Browse the searchable catalog
 
-**→ [Open the live site](https://maneesh-kumar-thakur.github.io/self-serve-learnings-4-all/)** — instant
-search, autocomplete, and Level/category filters.
-*(Goes live once GitHub Pages is enabled for this repo. You can also just open `index.html` locally.)*
+**🟢 Live — [open the searchable catalog »](https://maneesh-kumar-thakur.github.io/self-serve-learnings-4-all/)** — instant search, autocomplete, and Level/category filters.
+*(Or open `index.html` locally.)*
 
 ## Areas
 
