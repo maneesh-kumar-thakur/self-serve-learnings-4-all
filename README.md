@@ -16,7 +16,7 @@ search, autocomplete, and Level/category filters.
 
 | Area | What's inside | Status |
 |---|---|---|
-| 🤖 AI / ML | Tools & platforms by **concept depth** (Level 0→4). First up: **LLMs & Generative AI** (~150 tools). | ✅ Live |
+| AI / ML | Tools & platforms by **concept depth** (Level 0→4). First up: **LLMs & Generative AI** (~150 tools). | ✅ Live |
 | _more coming_ | New areas, same style | 🔜 |
 
 ## How the levels work
