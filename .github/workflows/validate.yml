@@ -1,0 +1,25 @@
+name: Validate catalog
+
+# Fast, deterministic structural check — runs on every change to the data or scripts.
+on:
+  push:
+    paths:
+      - 'data/catalog.js'
+      - 'scripts/**'
+      - '.github/workflows/validate.yml'
+  pull_request:
+    paths:
+      - 'data/catalog.js'
+      - 'scripts/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate catalog structure
+        run: node scripts/validate.mjs

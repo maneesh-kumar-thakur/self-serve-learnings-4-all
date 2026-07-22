@@ -11,3 +11,7 @@ desktop.ini
 
 # Claude Code local config (machine-specific paths + permissions; not part of the public catalog)
 .claude/
+
+# Node / CI
+node_modules/
+link-report.md

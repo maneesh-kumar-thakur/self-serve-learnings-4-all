@@ -1,0 +1,12 @@
+{
+  "name": "self-serve-learnings-4-all",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "CC0-1.0",
+  "description": "A searchable, leveled learning map of AI/ML tools.",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "linkcheck": "node scripts/check-links.mjs"
+  }
+}
