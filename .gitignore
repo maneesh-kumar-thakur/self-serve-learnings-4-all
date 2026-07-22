@@ -1,0 +1,13 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / temp
+*.tmp
+*.swp
+*~
+.vscode/
+
+# Claude Code local config (machine-specific paths + permissions; not part of the public catalog)
+.claude/

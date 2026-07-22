@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI / ML Tools — Leveled Learning Map</title>
+<meta name="description" content="A searchable, leveled map of AI/ML tools — each with something to read and the code. Sorted by concept depth, Level 0 to 4." />
+<script src="data/catalog.js"></script>
+<style>
+  :root{
+    --bg:#f7f8fa; --panel:#ffffff; --panel-2:#f0f2f5; --text:#1a1d24; --muted:#5b6472;
+    --border:#e3e7ec; --accent:#4f46e5; --accent-soft:#eef0fe; --chip:#eceef1; --chip-on:#4f46e5;
+    --l0:#0ea5e9; --l1:#22c55e; --l2:#eab308; --l3:#f97316; --l4:#ef4444;
+    --shadow:0 1px 2px rgba(20,24,40,.06),0 4px 16px rgba(20,24,40,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0e1116; --panel:#161b22; --panel-2:#1c222b; --text:#e6e9ef; --muted:#9aa4b2;
+      --border:#293039; --accent:#8b8cf9; --accent-soft:#20233a; --chip:#232a34; --chip-on:#6366f1;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1116; --panel:#161b22; --panel-2:#1c222b; --text:#e6e9ef; --muted:#9aa4b2;
+    --border:#293039; --accent:#8b8cf9; --accent-soft:#20233a; --chip:#232a34; --chip-on:#6366f1;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"]{
+    --bg:#f7f8fa; --panel:#ffffff; --panel-2:#f0f2f5; --text:#1a1d24; --muted:#5b6472;
+    --border:#e3e7ec; --accent:#4f46e5; --accent-soft:#eef0fe; --chip:#eceef1; --chip-on:#4f46e5;
+    --shadow:0 1px 2px rgba(20,24,40,.06),0 4px 16px rgba(20,24,40,.05);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1000px;margin:0 auto;padding:24px 18px 64px}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 2px}
+  .theme-btn{background:var(--panel);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 11px;cursor:pointer;font-size:.85rem}
+  .theme-btn:hover{border-color:var(--accent)}
+
+  /* Controls */
+  .controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0 10px;margin-top:14px;border-bottom:1px solid var(--border)}
+  .searchbox{position:relative}
+  .searchbox input{width:100%;padding:12px 40px 12px 40px;font-size:1rem;border:1px solid var(--border);border-radius:12px;background:var(--panel);color:var(--text);box-shadow:var(--shadow)}
+  .searchbox input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .searchbox .icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.55}
+  .searchbox .clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:transparent;color:var(--muted);font-size:1.1rem;cursor:pointer;display:none}
+  .ac{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--panel);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;display:none;max-height:320px;overflow-y:auto}
+  .ac.show{display:block}
+  .ac-item{padding:9px 14px;cursor:pointer;display:flex;align-items:center;gap:10px}
+  .ac-item .kind{font-size:.72rem;color:var(--muted);margin-left:auto}
+  .ac-item.active,.ac-item:hover{background:var(--accent-soft)}
+  .ac-dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  .chip{border:1px solid var(--border);background:var(--chip);color:var(--text);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.82rem;user-select:none}
+  .chip[aria-pressed="true"]{background:var(--chip-on);border-color:var(--chip-on);color:#fff}
+  select{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:999px;padding:6px 12px;font-size:.82rem;cursor:pointer}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto}
+
+  /* Levels */
+  .level{margin-top:30px}
+  .level-head{display:flex;align-items:baseline;gap:11px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+  .lv-badge{font-weight:700;color:#fff;border-radius:8px;padding:3px 10px;font-size:.9rem;flex:none}
+  .level-head h2{font-size:1.15rem;margin:0}
+  .level-head .blurb{color:var(--muted);font-size:.85rem;margin-left:4px}
+  .lv0{background:var(--l0)}.lv1{background:var(--l1)}.lv2{background:var(--l2)}.lv3{background:var(--l3)}.lv4{background:var(--l4)}
+  .cat{margin-top:16px}
+  .cat h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow)}
+  .card .nm{font-weight:650;font-size:.98rem}
+  .card .note{color:var(--muted);font-size:.8rem;margin-top:-4px}
+  .card .links{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+  .lnk{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;padding:5px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel-2)}
+  .lnk:hover{text-decoration:none;border-color:var(--accent)}
+  .lnk.disabled{opacity:.45;pointer-events:none}
+  mark{background:rgba(139,140,249,.32);color:inherit;border-radius:3px;padding:0 1px}
+  .empty{text-align:center;color:var(--muted);padding:60px 0}
+  footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem}
+  .about{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:.88rem;color:var(--muted);display:none}
+  .about.show{display:block}
+  .about b{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>AI / ML Tools — Leveled Learning Map</h1>
+      <p class="sub" id="subtitle">Loading…</p>
+      <p class="sub" style="font-size:.85rem"><a href="#" id="aboutToggle">About &amp; how levels work ▾</a></p>
+    </div>
+    <button class="theme-btn" id="themeBtn" title="Toggle light/dark">◐ Theme</button>
+  </header>
+
+  <div class="about" id="about">
+    <p><b>The idea:</b> tools sorted by <b>concept depth</b> — how much you need to understand to really
+    use each one — from <b>Level 0</b> (use ready-made AI, no theory) to <b>Level 4</b> (research- and
+    production-scale systems). It's not about how hard a tool is to click; ChatGPT is easy to use (Level 0)
+    even though the ideas behind it are advanced.</p>
+    <p><b>Every tool has two links:</b> <b>📖 Read</b> — an approachable article/tutorial to understand it —
+    and <b>🐙 Code</b> — its repo or homepage. Levels are judgment calls; you might move a tool ±1 level, and
+    that's fine.</p>
+  </div>
+
+  <div class="controls">
+    <div class="searchbox">
+      <span class="icon">🔎</span>
+      <input id="q" type="text" placeholder="Search tools, categories… (e.g. RAG, vLLM, vector)" autocomplete="off" spellcheck="false" aria-label="Search tools" />
+      <button class="clear" id="clear" title="Clear" aria-label="Clear search">✕</button>
+      <div class="ac" id="ac" role="listbox"></div>
+    </div>
+    <div class="filters">
+      <span class="chip" data-level="all" aria-pressed="true">All levels</span>
+      <span class="chip" data-level="0" aria-pressed="false">L0</span>
+      <span class="chip" data-level="1" aria-pressed="false">L1</span>
+      <span class="chip" data-level="2" aria-pressed="false">L2</span>
+      <span class="chip" data-level="3" aria-pressed="false">L3</span>
+      <span class="chip" data-level="4" aria-pressed="false">L4</span>
+      <select id="catSel" aria-label="Filter by category"><option value="all">All categories</option></select>
+      <span class="count" id="count"></span>
+    </div>
+  </div>
+
+  <main id="results"></main>
+
+  <footer>
+    <span id="foot"></span> · Built as a research-backed learning map.
+    <a href="https://github.com/maneesh-kumar-thakur/self-serve-learnings-4-all" target="_blank" rel="noopener">Repo ↗</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var DATA = window.CATALOG || {topic:"", updated:"", levels:[], tools:[]};
+  var LV_NAMES = {}, LV_BLURB = {};
+  (DATA.levels||[]).forEach(function(l){ LV_NAMES[l.n]=l.name; LV_BLURB[l.n]=l.blurb||""; });
+  var tools = (DATA.tools||[]).slice();
+
+  // ----- state -----
+  var state = { q:"", levels:new Set(), cat:"all" }; // empty levels = all
+  var acIndex = -1, acItems = [];
+
+  // ----- helpers -----
+  function norm(s){ return (s||"").toLowerCase(); }
+  function esc(s){ return (s||"").replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+  function hi(text, q){
+    if(!q) return esc(text);
+    var i = norm(text).indexOf(norm(q));
+    if(i<0) return esc(text);
+    return esc(text.slice(0,i))+"<mark>"+esc(text.slice(i,i+q.length))+"</mark>"+esc(text.slice(i+q.length));
+  }
+  function matches(t){
+    if(state.levels.size && !state.levels.has(t.level)) return false;
+    if(state.cat!=="all" && t.category!==state.cat) return false;
+    if(state.q){
+      var hay = norm(t.name)+" "+norm(t.category)+" "+norm(t.note||"")+" L"+t.level;
+      if(hay.indexOf(norm(state.q))<0) return false;
+    }
+    return true;
+  }
+
+  // ----- render -----
+  var results = document.getElementById("results");
+  function render(){
+    var list = tools.filter(matches);
+    document.getElementById("count").textContent = list.length+" / "+tools.length+" tools";
+    if(!list.length){ results.innerHTML = '<div class="empty">No tools match. Try a different search or clear the filters.</div>'; return; }
+    var byLevel = {};
+    list.forEach(function(t){ (byLevel[t.level]=byLevel[t.level]||[]).push(t); });
+    var html = "";
+    Object.keys(byLevel).map(Number).sort(function(a,b){return a-b;}).forEach(function(lv){
+      html += '<section class="level"><div class="level-head"><span class="lv-badge lv'+lv+'">L'+lv+'</span>'+
+              '<h2>'+esc(LV_NAMES[lv]||("Level "+lv))+'</h2><span class="blurb">'+esc(LV_BLURB[lv]||"")+'</span></div>';
+      var byCat = {};
+      byLevel[lv].forEach(function(t){ (byCat[t.category]=byCat[t.category]||[]).push(t); });
+      Object.keys(byCat).sort().forEach(function(cat){
+        html += '<div class="cat"><h3>'+esc(cat)+'</h3><div class="grid">';
+        byCat[cat].forEach(function(t){ html += card(t); });
+        html += '</div></div>';
+      });
+      html += '</section>';
+    });
+    results.innerHTML = html;
+  }
+  function card(t){
+    var read = t.read && t.read.url && t.read.url!=="NONE"
+      ? '<a class="lnk" href="'+esc(t.read.url)+'" target="_blank" rel="noopener" title="'+esc(t.read.title||"Read")+'">📖 Read</a>'
+      : '<span class="lnk disabled" title="No read link yet">📖 Read</span>';
+    var code = t.code && t.code.url
+      ? '<a class="lnk" href="'+esc(t.code.url)+'" target="_blank" rel="noopener">'+(t.code.kind==="homepage"?"🌐 Site":"🐙 Code")+'</a>'
+      : '';
+    return '<div class="card"><div class="nm">'+hi(t.name,state.q)+'</div>'+
+           (t.note?'<div class="note">'+esc(t.note)+'</div>':'')+
+           '<div class="links">'+read+code+'</div></div>';
+  }
+
+  // ----- autocomplete -----
+  var acBox = document.getElementById("ac");
+  var catColors = {0:"var(--l0)",1:"var(--l1)",2:"var(--l2)",3:"var(--l3)",4:"var(--l4)"};
+  function buildAc(q){
+    q = norm(q);
+    if(!q){ closeAc(); return; }
+    var seen = {}, out = [];
+    tools.forEach(function(t){
+      if(norm(t.name).indexOf(q)>=0 && !seen["t:"+t.name]){ seen["t:"+t.name]=1; out.push({label:t.name,kind:"L"+t.level+" · "+t.category,level:t.level,q:t.name}); }
+    });
+    var cats = {};
+    tools.forEach(function(t){ if(norm(t.category).indexOf(q)>=0) cats[t.category]=(cats[t.category]||0)+1; });
+    Object.keys(cats).forEach(function(c){ out.push({label:c,kind:cats[c]+" tools",level:-1,q:c}); });
+    out = out.slice(0,8);
+    acItems = out; acIndex = -1;
+    if(!out.length){ closeAc(); return; }
+    acBox.innerHTML = out.map(function(o,i){
+      var dot = o.level>=0 ? '<span class="ac-dot" style="background:'+catColors[o.level]+'"></span>' : '<span class="ac-dot" style="background:var(--muted)"></span>';
+      return '<div class="ac-item" data-i="'+i+'" role="option">'+dot+'<span>'+hi(o.label,q)+'</span><span class="kind">'+esc(o.kind)+'</span></div>';
+    }).join("");
+    acBox.classList.add("show");
+  }
+  function closeAc(){ acBox.classList.remove("show"); acBox.innerHTML=""; acItems=[]; acIndex=-1; }
+  function chooseAc(i){ if(i<0||i>=acItems.length) return; var it=acItems[i]; input.value=it.q; setQuery(it.q); closeAc(); }
+
+  acBox.addEventListener("mousedown", function(e){ var el=e.target.closest(".ac-item"); if(el) chooseAc(+el.dataset.i); });
+
+  // ----- inputs -----
+  var input = document.getElementById("q");
+  var clearBtn = document.getElementById("clear");
+  function setQuery(v){ state.q=v.trim(); clearBtn.style.display=v?"block":"none"; render(); }
+  input.addEventListener("input", function(){ setQuery(input.value); buildAc(input.value); });
+  input.addEventListener("keydown", function(e){
+    if(!acBox.classList.contains("show")){ if(e.key==="Escape"){input.blur();} return; }
+    if(e.key==="ArrowDown"){ e.preventDefault(); acIndex=Math.min(acIndex+1,acItems.length-1); paintAc(); }
+    else if(e.key==="ArrowUp"){ e.preventDefault(); acIndex=Math.max(acIndex-1,0); paintAc(); }
+    else if(e.key==="Enter"){ if(acIndex>=0){ e.preventDefault(); chooseAc(acIndex);} else closeAc(); }
+    else if(e.key==="Escape"){ closeAc(); }
+  });
+  function paintAc(){ Array.prototype.forEach.call(acBox.children,function(c,i){ c.classList.toggle("active",i===acIndex); }); }
+  input.addEventListener("blur", function(){ setTimeout(closeAc,120); });
+  clearBtn.addEventListener("click", function(){ input.value=""; setQuery(""); closeAc(); input.focus(); });
+
+  // level chips
+  Array.prototype.forEach.call(document.querySelectorAll(".chip"), function(chip){
+    chip.addEventListener("click", function(){
+      var lv = chip.dataset.level;
+      if(lv==="all"){ state.levels.clear(); }
+      else{
+        var n=+lv;
+        if(state.levels.has(n)) state.levels.delete(n); else state.levels.add(n);
+      }
+      // repaint pressed states
+      document.querySelector('.chip[data-level="all"]').setAttribute("aria-pressed", state.levels.size===0);
+      Array.prototype.forEach.call(document.querySelectorAll('.chip[data-level]'), function(c){
+        if(c.dataset.level!=="all") c.setAttribute("aria-pressed", state.levels.has(+c.dataset.level));
+      });
+      render();
+    });
+  });
+
+  // category select
+  var catSel = document.getElementById("catSel");
+  var cats = {};
+  tools.forEach(function(t){ cats[t.category]=1; });
+  Object.keys(cats).sort().forEach(function(c){ var o=document.createElement("option"); o.value=c; o.textContent=c; catSel.appendChild(o); });
+  catSel.addEventListener("change", function(){ state.cat=catSel.value; render(); });
+
+  // theme toggle
+  var themeBtn = document.getElementById("themeBtn");
+  themeBtn.addEventListener("click", function(){
+    var cur = document.documentElement.getAttribute("data-theme");
+    var next = cur==="dark" ? "light" : (cur==="light" ? "dark" : (matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark"));
+    document.documentElement.setAttribute("data-theme", next);
+  });
+
+  // about toggle
+  document.getElementById("aboutToggle").addEventListener("click", function(e){ e.preventDefault(); document.getElementById("about").classList.toggle("show"); });
+
+  // ----- init -----
+  if(!tools.length){
+    document.getElementById("subtitle").textContent = "Catalog data not found (data/catalog.js).";
+    results.innerHTML = '<div class="empty">No data loaded. Make sure <code>data/catalog.js</code> is present.</div>';
+    return;
+  }
+  document.getElementById("subtitle").textContent = tools.length+" tools · "+(DATA.topic||"")+" · Level 0 → 4";
+  document.getElementById("foot").textContent = "Topic: "+(DATA.topic||"")+(DATA.updated?(" · updated "+DATA.updated):"");
+  render();
+})();
+</script>
+</body>
+</html>
