@@ -15,3 +15,6 @@ desktop.ini
 # Node / CI
 node_modules/
 link-report.md
+
+# Private working files — never commit (Google Search Console exercise, scratch notes, etc.)
+confidential/
