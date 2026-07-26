@@ -18,3 +18,8 @@ jobs:
           node-version: '20'
       - name: Validate catalog structure
         run: node scripts/validate.mjs
+      - name: SEO artifacts are in sync with the catalog
+        run: |
+          node scripts/build-seo.mjs
+          git diff --exit-code -- index.html sitemap.xml \
+            || { echo "::error::index.html / sitemap.xml are stale — run 'npm run build:seo' and commit."; exit 1; }

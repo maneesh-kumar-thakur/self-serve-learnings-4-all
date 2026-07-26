@@ -1,0 +1,7 @@
+# Crawling is welcome.
+# Note: for a github.io PROJECT (subpath) site, search engines read robots.txt from
+# the domain root, not this path — so submit the sitemap directly in Google Search Console.
+User-agent: *
+Allow: /
+
+Sitemap: https://maneesh-kumar-thakur.github.io/self-serve-learnings-4-all/sitemap.xml
