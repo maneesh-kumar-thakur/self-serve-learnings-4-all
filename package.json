@@ -7,6 +7,7 @@
   "description": "A searchable, leveled learning map of AI/ML tools.",
   "scripts": {
     "validate": "node scripts/validate.mjs",
-    "linkcheck": "node scripts/check-links.mjs"
+    "linkcheck": "node scripts/check-links.mjs",
+    "build:seo": "node scripts/build-seo.mjs"
   }
 }
