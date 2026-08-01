@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Link-liveness check for every read/code URL in data/catalog.js.
    Low-noise: real UA, retries, HEAD→GET fallback, and soft-passes anti-bot /
-   rate-limit codes (403/429/999/…) that live pages routinely return.
+   rate-limit codes (403/429/999/…) plus header-overflow errors that live pages return.
    Only 404/410/5xx/DNS-failure/timeout count as broken.
    Writes link-report.md and exits 1 if any hard-broken link is found.
    Run: `npm run linkcheck`. */
@@ -26,7 +26,9 @@ for (const t of cat.tools) {
 
 const UA = 'Mozilla/5.0 (compatible; SelfServeLearnings-linkcheck/1.0; +https://github.com/maneesh-kumar-thakur/self-serve-learnings-4-all)';
 const SOFT = new Set([401, 403, 405, 406, 429, 503, 999]); // blocked / rate-limited / auth-walled → treat as alive
+const SOFT_ERR = new Set(['UND_ERR_HEADERS_OVERFLOW']);    // server responded but headers exceeded Node's fetch limit (e.g. Google) → alive
 const RETRY_STATUS = new Set([403, 405, 501, 999]);        // retry HEAD as GET on these
+const isSoftErr = (s) => typeof s === 'string' && s.startsWith('ERR:') && SOFT_ERR.has(s.slice(4));
 const CONCURRENCY = 8;
 const TIMEOUT_MS = 20000;
 
@@ -50,7 +52,7 @@ async function check(url) {
   let last;
   for (let i = 0; i < 3; i++) {
     last = await probe(url);
-    if (typeof last === 'number' && (last < 400 || SOFT.has(last))) return last;
+    if ((typeof last === 'number' && (last < 400 || SOFT.has(last))) || isSoftErr(last)) return last;
     await new Promise((r) => setTimeout(r, 600 * (i + 1)));
   }
   return last;
@@ -63,7 +65,7 @@ async function worker() { while (idx < entries.length) { const u = entries[idx++
 await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
 const ok = (s) => typeof s === 'number' && s < 400;
-const soft = (s) => typeof s === 'number' && SOFT.has(s);
+const soft = (s) => (typeof s === 'number' && SOFT.has(s)) || isSoftErr(s);
 const broken = results.filter(([, s]) => !ok(s) && !soft(s));
 const softHits = results.filter(([, s]) => soft(s));
 
@@ -71,7 +73,7 @@ const stamp = new Date().toISOString().slice(0, 10);
 let report = `# Link check — ${stamp}\n\n`;
 report += `Checked **${entries.length}** unique URLs across ${cat.tools.length} tools.\n\n`;
 report += `- ✅ OK: ${results.length - broken.length - softHits.length}\n`;
-report += `- ⚠️ Soft (blocked/rate-limited, likely fine): ${softHits.length}\n`;
+report += `- ⚠️ Soft (blocked / rate-limited / oversized headers — likely fine): ${softHits.length}\n`;
 report += `- ❌ Broken: ${broken.length}\n`;
 if (broken.length) {
   report += `\n## ❌ Broken links (${broken.length})\n\n`;
