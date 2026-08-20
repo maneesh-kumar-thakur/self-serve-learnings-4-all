@@ -29,6 +29,8 @@ const SOFT = new Set([401, 403, 405, 406, 429, 503, 999]); // blocked / rate-lim
 const SOFT_ERR = new Set(['UND_ERR_HEADERS_OVERFLOW']);    // server responded but headers exceeded Node's fetch limit (e.g. Google) → alive
 const RETRY_STATUS = new Set([403, 405, 501, 999]);        // retry HEAD as GET on these
 const isSoftErr = (s) => typeof s === 'string' && s.startsWith('ERR:') && SOFT_ERR.has(s.slice(4));
+const SOFT_HOSTS = new Set(['kaggle.com']);                // live sites that hard-block automated requests → soft
+const softHost = (u) => { try { return SOFT_HOSTS.has(new URL(u).hostname.replace(/^www\./, '')); } catch (_) { return false; } };
 const CONCURRENCY = 8;
 const TIMEOUT_MS = 20000;
 
@@ -66,8 +68,9 @@ await Promise.all(Array.from({ length: CONCURRENCY }, worker));
 
 const ok = (s) => typeof s === 'number' && s < 400;
 const soft = (s) => (typeof s === 'number' && SOFT.has(s)) || isSoftErr(s);
-const broken = results.filter(([, s]) => !ok(s) && !soft(s));
-const softHits = results.filter(([, s]) => soft(s));
+const isSoftResult = (u, s) => soft(s) || softHost(u);
+const broken = results.filter(([u, s]) => !ok(s) && !isSoftResult(u, s));
+const softHits = results.filter(([u, s]) => !ok(s) && isSoftResult(u, s));
 
 const stamp = new Date().toISOString().slice(0, 10);
 let report = `# Link check — ${stamp}\n\n`;

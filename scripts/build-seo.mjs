@@ -19,21 +19,28 @@ const cat = sandbox.window.CATALOG;
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+const topics = (cat.topics && cat.topics.length) ? cat.topics : [{ id: 'llms', name: cat.topic || 'Catalog' }];
+const topicOf = (t) => t.topic || 'llms';
 let body = '';
 body += `<h2>${cat.tools.length} AI/ML tools by concept depth (Level 0 to 4)</h2>\n`;
-body += `<p>A searchable, leveled learning map of AI and machine-learning tools for ${esc(cat.topic)}. Every tool links to an approachable article to read and to its code or homepage. Enable JavaScript for search, autocomplete and level/category filters.</p>\n`;
-for (const lv of cat.levels.slice().sort((a, b) => a.n - b.n)) {
-  const tools = cat.tools.filter((t) => t.level === lv.n);
-  if (!tools.length) continue;
-  body += `<h3>Level ${lv.n} — ${esc(lv.name)}</h3>\n<p>${esc(lv.blurb || '')}</p>\n`;
-  for (const c of [...new Set(tools.map((t) => t.category))]) {
-    body += `<h4>${esc(c)}</h4>\n<ul>\n`;
-    for (const t of tools.filter((x) => x.category === c)) {
-      const read = t.read && t.read.url ? ` — <a href="${esc(t.read.url)}">Read${t.read.title ? ': ' + esc(t.read.title) : ''}</a>` : '';
-      const code = t.code && t.code.url ? ` · <a href="${esc(t.code.url)}">${t.code.kind === 'homepage' ? 'Website' : 'Code'}</a>` : '';
-      body += `<li><strong>${esc(t.name)}</strong>${t.note ? ' (' + esc(t.note) + ')' : ''}${read}${code}</li>\n`;
+body += `<p>A searchable, leveled learning map of ${cat.tools.length} AI and machine-learning tools across ${topics.length} topics. Every tool links to an approachable article to read and to its code or homepage. Enable JavaScript for search, autocomplete and level/category filters.</p>\n`;
+for (const tp of topics) {
+  const tTools = cat.tools.filter((t) => topicOf(t) === tp.id);
+  if (!tTools.length) continue;
+  body += `<h2>${esc(tp.name)}</h2>\n`;
+  for (const lv of cat.levels.slice().sort((a, b) => a.n - b.n)) {
+    const tools = tTools.filter((t) => t.level === lv.n);
+    if (!tools.length) continue;
+    body += `<h3>Level ${lv.n} — ${esc(lv.name)}</h3>\n<p>${esc(lv.blurb || '')}</p>\n`;
+    for (const c of [...new Set(tools.map((t) => t.category))]) {
+      body += `<h4>${esc(c)}</h4>\n<ul>\n`;
+      for (const t of tools.filter((x) => x.category === c)) {
+        const read = t.read && t.read.url ? ` — <a href="${esc(t.read.url)}">Read${t.read.title ? ': ' + esc(t.read.title) : ''}</a>` : '';
+        const code = t.code && t.code.url ? ` · <a href="${esc(t.code.url)}">${t.code.kind === 'homepage' ? 'Website' : 'Code'}</a>` : '';
+        body += `<li><strong>${esc(t.name)}</strong>${t.note ? ' (' + esc(t.note) + ')' : ''}${read}${code}</li>\n`;
+      }
+      body += `</ul>\n`;
     }
-    body += `</ul>\n`;
   }
 }
 

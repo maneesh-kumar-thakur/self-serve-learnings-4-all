@@ -22,6 +22,7 @@ if (!cat || !Array.isArray(cat.tools)) {
 }
 
 const definedLevels = new Set((cat.levels || []).map((l) => l.n));
+const definedTopics = new Set((cat.topics || []).map((t) => t.id));
 const errors = [];
 const seen = new Map();
 
@@ -36,17 +37,21 @@ cat.tools.forEach((t, i) => {
     if (!t[k] || !t[k].url) errors.push(`${where}: missing ${k}.url`);
     else if (!/^https:\/\//.test(t[k].url)) errors.push(`${where}: ${k}.url is not https (${t[k].url})`);
   }
+  const topic = t.topic || 'llms';
+  if (definedTopics.size && !definedTopics.has(topic)) errors.push(`${where}: unknown topic "${topic}"`);
   if (t.name) {
-    const key = t.name.toLowerCase();
-    if (seen.has(key)) errors.push(`${where}: duplicate name (also at ${seen.get(key)})`);
+    const key = topic + '::' + t.name.toLowerCase();
+    if (seen.has(key)) errors.push(`${where}: duplicate name in topic "${topic}" (also at ${seen.get(key)})`);
     else seen.set(key, where);
   }
 });
 
 const byLevel = {};
 cat.tools.forEach((t) => { byLevel[t.level] = (byLevel[t.level] || 0) + 1; });
+const byTopic = {};
+cat.tools.forEach((t) => { const tp = t.topic || 'llms'; byTopic[tp] = (byTopic[tp] || 0) + 1; });
 const cats = new Set(cat.tools.map((t) => t.category)).size;
-console.log(`Catalog "${cat.topic || '?'}": ${cat.tools.length} tools · levels ${JSON.stringify(byLevel)} · ${cats} categories`);
+console.log(`Catalog: ${cat.tools.length} tools · topics ${JSON.stringify(byTopic)} · levels ${JSON.stringify(byLevel)} · ${cats} categories`);
 
 if (errors.length) {
   console.error(`\n❌ ${errors.length} structural problem(s):`);
