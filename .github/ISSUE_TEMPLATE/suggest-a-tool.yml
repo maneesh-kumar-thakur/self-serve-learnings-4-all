@@ -1,0 +1,60 @@
+name: Suggest a tool
+description: Add an AI/ML tool to the leveled map
+title: "[Tool] <name>"
+labels: ["tool suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a tool! Please check the [live map](https://maneesh-kumar-thakur.github.io/self-serve-learnings-4-all/) first to make sure it isn't already listed.
+  - type: input
+    id: name
+    attributes:
+      label: Tool name
+    validations:
+      required: true
+  - type: dropdown
+    id: level
+    attributes:
+      label: Level (concept depth)
+      description: How much do you need to understand to use it? (Not how hard it is to install.)
+      options:
+        - "0 — Consume ready-made GenAI (no code)"
+        - "1 — Run & build with no/low code"
+        - "2 — Code with high-level libraries"
+        - "3 — Build, fine-tune & ship"
+        - "4 — Research & scale"
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      description: e.g. Vector databases, Agent frameworks, Local model runtimes
+  - type: input
+    id: read
+    attributes:
+      label: "📖 Read link"
+      description: An approachable article or tutorial to understand it (not dense reference docs, if avoidable).
+    validations:
+      required: true
+  - type: input
+    id: code
+    attributes:
+      label: "🐙 Code link"
+      description: The repo, or the homepage if it isn't open source.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What it does / why it belongs
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: Both links are real and I've confirmed they load
+          required: true
+        - label: It isn't already in the catalog
+          required: true
