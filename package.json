@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "CC0-1.0",
-  "description": "A searchable, leveled learning map of AI/ML tools.",
+  "description": "An awesome list of AI/ML tools — leveled by concept depth and searchable.",
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "linkcheck": "node scripts/check-links.mjs",

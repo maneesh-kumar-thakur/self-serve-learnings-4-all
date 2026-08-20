@@ -18,3 +18,16 @@ link-report.md
 
 # Private working files — never commit (Google Search Console exercise, scratch notes, etc.)
 confidential/
+
+# Project Brain — local dev tooling state (not part of this public catalog)
+.brain/
+.brain-config
+.brain-context
+.brain-session
+AGENTS.md
+
+# Env + per-developer IDE MCP configs (hold local absolute paths / secrets)
+.env
+.cursor/mcp.json
+.windsurf/mcp.json
+.cline/mcp_settings.json

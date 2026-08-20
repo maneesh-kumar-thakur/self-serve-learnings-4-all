@@ -1,0 +1,29 @@
+name: Report a broken link
+description: A Read or Code link is dead, redirects wrong, or points to the wrong page
+title: "[Broken link] <tool>"
+labels: ["broken link"]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Tool name
+    validations:
+      required: true
+  - type: dropdown
+    id: which
+    attributes:
+      label: Which link?
+      options:
+        - "📖 Read"
+        - "🐙 Code"
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: The broken URL
+  - type: textarea
+    id: details
+    attributes:
+      label: What happens?
+      description: e.g. 404, redirects to a parked domain, or lands on an unrelated page. A replacement URL is very welcome.
