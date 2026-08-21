@@ -20,8 +20,8 @@ const cat = sandbox.window.CATALOG;
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 let body = '';
-body += `<h2>${cat.tools.length} AI/ML tools by concept depth (Level 0 to 4)</h2>\n`;
-body += `<p>A searchable, leveled learning map of AI and machine-learning tools for ${esc(cat.topic)}. Every tool links to an approachable article to read and to its code or homepage. Enable JavaScript for search, autocomplete and level/category filters.</p>\n`;
+body += `<h2>Awesome AI/ML Tools — ${cat.tools.length} tools by concept depth (Level 0 to 4)</h2>\n`;
+body += `<p>An awesome list of AI and machine-learning tools for ${esc(cat.topic)} — searchable and leveled by concept depth (Level 0 to 4). Every tool links to an approachable article to read and to its code or homepage. Enable JavaScript for search, autocomplete and level/category filters.</p>\n`;
 for (const lv of cat.levels.slice().sort((a, b) => a.n - b.n)) {
   const tools = cat.tools.filter((t) => t.level === lv.n);
   if (!tools.length) continue;

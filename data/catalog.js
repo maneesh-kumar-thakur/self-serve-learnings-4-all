@@ -3,7 +3,7 @@
    Each tool: { name, level 0-4, category, note?, read:{url,title,kind}, code:{url,kind} } */
 window.CATALOG = {
   topic: "LLMs & Generative AI",
-  updated: "2026-07-22",
+  updated: "2026-08-22",
   levels: [
     { n: 0, name: "Consume ready-made GenAI", blurb: "Use finished AI products. No code, no theory." },
     { n: 1, name: "Run & build with no/low code", blurb: "Run models locally via a GUI, or assemble apps by drag-and-drop. First ideas: prompts, tokens, RAG." },
