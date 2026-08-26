@@ -24,7 +24,7 @@
 
 ## Why this is different
 
-Most awesome lists are a static wall of markdown links. This one is a **searchable app** over ~150 AI/ML tools (starting with LLMs & Generative AI), and every tool has exactly two links:
+Most awesome lists are a static wall of markdown links. This one is a **searchable app** over 210+ AI/ML tools (starting with LLMs & Generative AI), and every tool has exactly two links:
 
 - **📖 Read** — an approachable article or tutorial to *understand* it.
 - **🐙 Code** — its repo (or homepage, if it isn't open source).
@@ -47,7 +47,7 @@ The differentiator is the ordering: tools are sorted by **concept depth (Level 0
 
 | Area | What's inside | Status |
 |---|---|---|
-| AI / ML | Tools & platforms by **concept depth** (Level 0→4). First up: **LLMs & Generative AI** (~150 tools). | ✅ Live |
+| AI / ML | Tools & platforms by **concept depth** (Level 0→4). First up: **LLMs & Generative AI** (210+ tools). | ✅ Live |
 | _more coming_ | New areas, same style | 🔜 |
 
 ## Contributing
