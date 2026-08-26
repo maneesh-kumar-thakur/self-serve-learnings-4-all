@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Awesome AI/ML Tools — a Leveled, Searchable List</title>
 <meta name="description" content="An awesome list of 210+ AI/ML tools — leveled by concept depth (Level 0 to 4) and searchable. Every tool has an article to read and its code." />
@@ -602,8 +603,9 @@
   var themeBtn = document.getElementById("themeBtn");
   themeBtn.addEventListener("click", function(){
     var cur = document.documentElement.getAttribute("data-theme");
-    var next = cur==="dark" ? "light" : (cur==="light" ? "dark" : (matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark"));
+    var next = cur==="light" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", next);
+    try{ localStorage.setItem("theme", next); }catch(e){}
   });
 
   // about toggle
